@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Movie Page{% endblock %}</title>
+        {% block stylesheets %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        <!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/"><img src="{{ asset('img/lg.jpg') }}" width="80" height="60"></a>
+    <h2 class="title">Movie And Chill</h2>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button> 
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+         <li class="nav-item active">
+          <a class="nav-link" style="color:white" href="{{ asset('/list') }}">Videos</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" style="color:white" href="{{ asset('/basket/video') }}">Basket</a>
+        </li>
+         <li class="nav-item active">
+          <a class="nav-link" style="color:white" href="{{ asset('logout') }}">Logout</a>
+        </li>
+      </ul>
+     
+    </div>
+  </div>
+</nav>
+
+
+<div class="col-md-12 p-t-10">
+                        <div class="row">
+                              
+                           
+
+                                 <div class="col-md-8 offset-2">
+                                    <div class="card">
+                                        <video controls >
+                                                <source src="{{asset('uploads/videos/')}}{{ video.content}}" type="video/mp4" />
+                                        </video> 
+                                        
+                                        <div class="card-body">
+                                            <h4 class="card-title mb-3">{{ video.title }}</h4>
+                                            <p class="card-text">
+                                            {{ video.description }}
+                                            </p>
+                                            <hr />
+                                            <a class="btn btn-warning" href="/add/basket/{{video.id}}" >
+                                            <i class="fa fa-bookmark"></i>&nbsp; Add to Basket </a>
+                                             <a class="btn btn-success" href="{{asset('uploads/videos/')}}{{video.content}}" >
+                                             <i class="fa fa-download"></i>&nbsp; Download </a>
+                                           
+                                        </div>
+                                    </div> 
+                                </div>
+                      
+                            </div> 
+                            <div class="container"> 
+
+            <form action="/comment/add/db" method="POST" enctype="multipart/form-data"> 
+ <input type="hidden" name="idvideo" value="{{ video.id }}">
+
+                        <div class="form-group">
+                            <label> <strong>Comment Here </strong></label>
+                            <input type="text" name="comment" class="form-control" formnovalidate>
+                        </div>
+
+                         <div class="form-group">
+                           
+                            <input type="submit" value="Add" class="btn btn-primary" >
+                        </div>
+            </form>
+    </div> 
+      <div class="container">   
+  {% for c in video.comments %}
+ <div class="comment">
+ <div class="row">
+ <div class="col-3">
+ <strong> {{ c.user.username }}<strong><small> Added At</small> <small>{{c.addedat | date('d/m/y  at H:i')}}</small>
+  </div>
+ <div class="col">
+ <p>
+    {{ c.comments | raw}}
+    
+          <a href="/comments/user/delete/{{c.id}}" class="btn btn-danger">Delete</a>
+          </p>
+</div>
+</div>
+</div>
+  {% endfor %}   
+    </div>
+    
+
+<!--- Connect -->
+<div class="container-fluid  padding">
+  <div class="row text-center pading">
+    <div class="col-12">
+      <h2>
+        Connect
+      </h2>
+    </div>
+    <div class="col-12 social padding" >
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-google-plus-g"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+  
+</div>
+
+<!--- Footer -->
+<footer>
+  <div class="container-fluid  padding">
+    <div class="row text-center pading">
+      <div class="col-md-4">
+        <h3>About</h3>
+        <hr class="light">
+        <p>This website is plateform to watch and download movies and it's a part of my end of studies projects as a student at ISIMA</p>
+      </div>
+      <div class="col-md-4">
+        <h3>
+          Links
+        </h3>
+        <hr class="light">
+        <a href="{{ asset('login') }}" class="nav-link">Login</a>
+      <a href="{{ asset('register') }}" class="nav-link">Register</a>
+      </div>
+      <div class="col-md-4">
+        <h3>
+          Info
+        </h3>
+        <hr class="light">
+        <p>The site offers a streaming service in addition to downloading content</p>
+      </div>
+      <div class="col-12">
+        <hr class="light">
+        <h4>&copy; Relized by Mahrez Mathlouthi</h4>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+        {% endblock %}
+        {% block javascripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+        
+        {% endblock %}
+    </body>
+</html>
